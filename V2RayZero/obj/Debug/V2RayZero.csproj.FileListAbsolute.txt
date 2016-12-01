@@ -1,0 +1,8 @@
+D:\project\V2RayZero\V2RayZero\bin\Debug\V2RayZero.exe.config
+D:\project\V2RayZero\V2RayZero\bin\Debug\V2RayZero.exe
+D:\project\V2RayZero\V2RayZero\bin\Debug\V2RayZero.pdb
+D:\project\V2RayZero\V2RayZero\obj\Debug\V2RayZero.Properties.Resources.resources
+D:\project\V2RayZero\V2RayZero\obj\Debug\V2RayZero.csproj.GenerateResource.Cache
+D:\project\V2RayZero\V2RayZero\obj\Debug\V2RayZero.exe
+D:\project\V2RayZero\V2RayZero\obj\Debug\V2RayZero.pdb
+D:\project\V2RayZero\V2RayZero\obj\Debug\V2RayZero.V2Ray_ZERO.resources
