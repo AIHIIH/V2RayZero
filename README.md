@@ -7,3 +7,5 @@ https://www.v2ray.com/
 
 
 需要有官方的内核文件在同一个目录下，以及需要config.json文件在同一个目录下
+
+Release 文件在 V2RayZero/V2RayZero/bin/Debug/  这个路径下面
