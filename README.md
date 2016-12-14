@@ -18,6 +18,6 @@ Release 文件在 V2RayZero/V2RayZero/bin/Debug/  这个路径下面
   }
   
 
-以及use中存在
+以及users中存在
 
 "security": "aes-128-cfb",
