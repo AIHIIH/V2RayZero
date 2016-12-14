@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace V2RayZero
@@ -10,6 +8,7 @@ namespace V2RayZero
     class ServiceDate
     {
         private List<string> listService = new List<string>();
+        //private Dictionary<string, string> dicService = new Dictionary<string, string>();   
         private string path = Environment.CurrentDirectory + "\\service.zero";
         private bool bLoad = false;
 
@@ -29,29 +28,17 @@ namespace V2RayZero
             }
         }
 
-        public List<string> GetParameter(int no, out string group, out string mark)
+        public Dictionary<string, string> GetParameter(int no)
         {
             //本地端口，IP，远程端口，id，level，alterId，kcp，备注，组
-            List<string> list = new List<string>();
+            Dictionary<string, string> dic = new Dictionary<string, string>();
             string[] tmps = listService[no].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < 7; i++)
+            foreach (var item in tmps)
             {
-                list.Add(tmps[i]);
+                string[] kv = item.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                dic.Add(kv[0], kv[1]);
             }
-            group = tmps[7];
-            mark = tmps[8];
-            return list;
-        }
-
-        public List<string> GetParameter(int no)
-        {
-            List<string> list = new List<string>();
-            string[] tmps = listService[no].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < 7; i++)
-            {
-                list.Add(tmps[i]);
-            }
-            return list;
+            return dic;
         }
 
         public void LoadService()
@@ -63,24 +50,30 @@ namespace V2RayZero
             }
             else
             {
-                List<string> list = new ConfigDispose().ReadConfig();
-                if (list.Count != 0)
+                Dictionary<string, string> dic = new ConfigDispose().ReadConfig();
+                if (dic.Count != 0)
                 {
                     string tmp = "";
-                    foreach (var item in list)
+                    //foreach (var item in list)
+                    //{
+                    //    tmp += (item + ",");
+                    //}
+                    //tmp += "Null,Null";
+                    //listService.Add(tmp);
+                    foreach (KeyValuePair<string, string> item in dic)
                     {
-                        tmp += (item + ",");
+                        tmp += (item.Key + ":" + item.Value+",");
                     }
-                    tmp += "Null,Null";
+                    tmp += "group:null,mark:null";
                     listService.Add(tmp);
                     bLoad = true;
                 }
             }
         }
 
-        public void AddService(List<string> list)
+        public void AddService(Dictionary<string, string> dic)
         {
-            string str = Compose(list);
+            string str = Compose(dic);
             listService.Add(str);
         }
 
@@ -96,9 +89,9 @@ namespace V2RayZero
             listService[n2] = tmp;
         }
 
-        public void SaveService(int no, List<string> list)
+        public void SaveService(int no, Dictionary<string, string> dic)
         {
-            listService[no] = Compose(list);
+            listService[no] = Compose(dic);
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
             {
                 foreach (var item in listService)
@@ -108,22 +101,20 @@ namespace V2RayZero
             }
         }
 
-        private string Compose(List<string> list)
+        private string Compose(Dictionary<string, string> dic)
         {
             string str = "";
-            int i = 0;
-            for (; i < list.Count - 1; i++)
+            foreach (KeyValuePair<string, string> item in dic)
             {
-                str += (list[i] + ",");
+                str += (item.Key + ":" + item.Value + ",");
             }
-            str += list[i];
             return str;
         }
 
         public string GetServiceTag(int no)
         {
-            string[] tmps = listService[no].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            return tmps[7] + " > " + tmps[8] + " : " + tmps[2];
+            Dictionary<string, string> dic = GetParameter(no);
+            return (dic["group"] + " > " + dic["mark"] + " : " + dic["remote"]);
         }
 
 

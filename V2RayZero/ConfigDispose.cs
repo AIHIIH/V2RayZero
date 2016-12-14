@@ -10,61 +10,19 @@ namespace V2RayZero
         private string path = Environment.CurrentDirectory + "\\config.json";
         private List<string> listConfigText = new List<string>();
         private List<int> listPos = new List<int>();
-        private List<string> listParameter = new List<string>();
-        private bool bKcp = false;
+        private Dictionary<string, string> dicParameter = new Dictionary<string, string>();//
+        private Dictionary<string, int> dicPos = new Dictionary<string, int>();//
 
 
-        public List<string> ListParameter
-        {
-            get
-            {
-                return listParameter;
-            }
-
-            set
-            {
-                listParameter = value;
-            }
-        }
-
-        public void WriteConfig(List<string> listP)
+        public void WriteConfig(Dictionary<string, string> dicP)
         {
             ReadConfig();
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.Default))
             {
-                int j = 0;
-                for (; j < listP.Count - 1; j++)
+                foreach (KeyValuePair<string, string> item in dicParameter)
                 {
-                    int no = listPos[j];
-                    listConfigText[no] = listConfigText[no].Replace(ListParameter[j], listP[j]);
+                    listConfigText[dicPos[item.Key]] = listConfigText[dicPos[item.Key]].Replace(dicParameter[item.Key], dicP[item.Key]);
                 }
-                //config含有kcp
-
-                if (listP[j] == "False" && bKcp)
-                {
-                    int no = listPos[j];
-                    listConfigText[no - 1] = listConfigText[no - 1].Replace("},", "}");
-                    listConfigText.RemoveAt(no);
-                    listConfigText.RemoveAt(no);
-                    listConfigText.RemoveAt(no);
-                }
-
-                else if (listP[j] == "True" && !bKcp)
-                {
-                    int no = listPos[j - 1];
-                    while (true)
-                    {
-                        no++;
-                        if (listConfigText[no].Contains("outboundDetour"))
-                        {
-                            break;
-                        }
-                    }
-                    listConfigText[no - 2] = listConfigText[no - 2].Replace("}", "},");
-                    string tmp = "\"";
-                    listConfigText[no - 1] = "\t\t" + tmp + "streamSettings" + tmp + ": {\r\n\t\t\t" + tmp + "network" + tmp + ": " + tmp + "kcp" + tmp + "\r\n\t\t}\r\n\t},";
-                }
-
                 foreach (var item in listConfigText)
                 {
                     sw.WriteLine(item);
@@ -72,14 +30,18 @@ namespace V2RayZero
             }
         }
 
-        public List<string> ReadConfig()
+        public Dictionary<string, string> ReadConfig()
         {
+            Action<string, int, string[]> act = (string s, int t, string[] con) =>
+                {
+                    dicParameter.Add(s, GetParameterFromLine(con[t]));
+                    dicPos.Add(s, t);
+                };
             if (File.Exists(path))
             {
                 string[] context = File.ReadAllLines(path, Encoding.Default);
                 listConfigText.AddRange(context);
                 int port = 0;   //用于区分本地端口和服务器端口
-                bKcp = false;
                 for (int i = 0; i < context.Length; i++)
                 {
                     string tmp = context[i];
@@ -87,30 +49,37 @@ namespace V2RayZero
                     {
                         if (port == 0)
                         {
-                            ListParameter.Add(GetParameterFromLine(context[i]));
-                            listPos.Add(i);
+                            act("local", i, context);
                             port++;
                         }
                         else if (port == 1)
                         {
-                            ListParameter.Add(GetParameterFromLine(context[i]));
-                            listPos.Add(i);
+                            act("remote", i, context);
                         }
                     }
-                    else if (tmp.Contains("address") || tmp.Contains("id") || tmp.Contains("level"))
+                    else if (tmp.Contains("address"))
                     {
-                        ListParameter.Add(GetParameterFromLine(context[i]));
-                        listPos.Add(i);
+                        act("address", i, context);
+                    }
+                    else if (tmp.Contains("id"))
+                    {
+                        act("id", i, context);
+                    }
+                    else if (tmp.Contains("level"))
+                    {
+                        act("level", i, context);
+                    }
+                    else if (tmp.Contains("security"))
+                    {
+                        act("security", i, context);
                     }
                     else if (tmp.Contains("alterId"))
                     {
-                        ListParameter.Add(GetParameterFromLine(context[i]));
-                        listPos.Add(i);
+                        act("alterId", i, context);
                     }
-                    else if (tmp.Contains("streamSettings"))
+                    else if (tmp.Contains("network"))
                     {
-                        bKcp = true;
-                        listPos.Add(i);
+                        act("network", i, context);
                         break;
                     }
                     else if (tmp.Contains("outboundDetour"))
@@ -118,14 +87,13 @@ namespace V2RayZero
                         break;
                     }
                 }
-                ListParameter.Add(bKcp.ToString());
             }
-            return ListParameter;
+            return dicParameter;
         }
 
         private string GetParameterFromLine(string str)
         {
-            return str.Split(new char[] { '\"', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)[2];
+            return str.Split(new char[] { '\"', ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries)[2];
         }
     }
 }

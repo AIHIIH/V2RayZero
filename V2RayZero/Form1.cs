@@ -10,15 +10,21 @@ namespace V2RayZero
         public V2Ray_ZERO()
         {
             InitializeComponent();
-            listTextBox.Add(txtLocalPort);
-            listTextBox.Add(txtIP);
-            listTextBox.Add(txtServicePort);
-            listTextBox.Add(txtID);
-            listTextBox.Add(txtLevel);
-            listTextBox.Add(txtAlterID);
-            listTextBox.Add(txtKcp);
-            listTextBox.Add(txtGroup);
-            listTextBox.Add(txtMark);
+            dicTextBox.Add("local", txtLocalPort);
+            dicTextBox.Add("address", txtIP);
+            dicTextBox.Add("remote", txtServicePort);
+            dicTextBox.Add("id", txtID);
+            dicTextBox.Add("level", txtLevel);
+            dicTextBox.Add("alterId", txtAlterID);
+            dicTextBox.Add("group", txtGroup);
+            dicTextBox.Add("mark", txtMark);
+            listSecurity.Add("aes-128-cfb");
+            listSecurity.Add("aes-128-gcm");
+            listSecurity.Add("chacha20-poly1305");
+            listSecurity.Add("none");
+            listNetwork.Add("tcp");
+            listNetwork.Add("kcp");
+            listNetwork.Add("ws");
             Process[] processcollection = Process.GetProcessesByName("v2ray-taskbar");
             if (processcollection.Length >= 2)
             {
@@ -77,7 +83,9 @@ namespace V2RayZero
             }
         }
         static ServiceDate sd = new ServiceDate();
-        List<TextBox> listTextBox = new List<TextBox>();
+        Dictionary<string, TextBox> dicTextBox = new Dictionary<string, TextBox>();
+        List<string> listSecurity = new List<string>();
+        List<string> listNetwork = new List<string>();
         // 最小化隐藏
         void V2ray_SizeChanged(object sender, EventArgs e)
         {
@@ -212,9 +220,9 @@ namespace V2RayZero
             };
             if (btn.Name == "btnAdd")
             {
-                List<string> list = GetParameter();
-                sd.AddService(list);
-                lsbService.Items.Add(listTextBox[7].Text + " > " + listTextBox[8].Text + " : " + listTextBox[2].Text);
+                Dictionary<string, string> dic = GetParameter();
+                sd.AddService(dic);
+                lsbService.Items.Add(dicTextBox["group"].Text + " > " + dicTextBox["mark"].Text + " : " + dicTextBox["remote"].Text);
                 lsbService.SelectedIndex = lsbService.Items.Count - 1;
             }
             else if (btn.Name == "btnDel")
@@ -248,15 +256,16 @@ namespace V2RayZero
             }
         }
 
-        private List<string> GetParameter()
+        private Dictionary<string, string> GetParameter()
         {
-            List<string> list = new List<string>();
-            foreach (var item in listTextBox)
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, TextBox> item in dicTextBox)
             {
-                list.Add(item.Text);
+                dic.Add(item.Key, item.Value.Text);
             }
-            list.Add(chbKcp.Checked.ToString());
-            return list;
+            dic.Add("network", listNetwork[cbxNetwork.SelectedIndex]);
+            dic.Add("security", listSecurity[cbxSecurity.SelectedIndex]);
+            return dic;
         }
 
         //左侧服务器选中
@@ -265,25 +274,26 @@ namespace V2RayZero
             try
             {
                 int no = lsbService.SelectedIndex;
-                string group = null;
-                string mark = null;
-                List<string> list = sd.GetParameter(no, out group, out mark);
-                if (list.Count != 0)
+                Dictionary<string, string> dic = sd.GetParameter(no);
+                foreach (KeyValuePair<string, TextBox> item in dicTextBox)
                 {
-                    list.Add(group);
-                    list.Add(mark);
-                    for (int i = 0; i < list.Count; i++)
+                    dicTextBox[item.Key].Text = dic[item.Key];
+                }
+                for (int i = 0; i < listSecurity.Count; i++)
+                {
+                    if (listSecurity[i] == dic["security"])
                     {
-                        listTextBox[i].Text = list[i];
+                        cbxSecurity.SelectedIndex = i;
+                        break;
                     }
                 }
-                if (txtKcp.Text == "True")
+                for (int i = 0; i < listNetwork.Count; i++)
                 {
-                    chbKcp.Checked = true;
-                }
-                else
-                {
-                    chbKcp.Checked = false;
+                    if (listNetwork[i] == dic["network"])
+                    {
+                        cbxNetwork.SelectedIndex = i;
+                        break;
+                    }
                 }
             }
             catch
@@ -296,25 +306,22 @@ namespace V2RayZero
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.notifyIconV2ray.Visible = false;
+            this.notifyIconV2ray.Visible = true;
             try
             {
-                Process[] killp = Process.GetProcessesByName("v2ray");
-                foreach (System.Diagnostics.Process p in killp)
-                {
-                    p.Kill();
-                }
-                Environment.Exit(0);
+                //Process[] killp = Process.GetProcessesByName("v2ray");
+                //foreach (System.Diagnostics.Process p in killp)
+                //{
+                //    p.Kill();
+                //}
+                //Environment.Exit(0);
+                e.Cancel = true;
+                Hide();
             }
             catch (Exception)
             {
                 Environment.Exit(0);
             }
-        }
-
-        private void chbKcp_CheckedChanged(object sender, EventArgs e)
-        {
-            txtKcp.Text = chbKcp.Checked.ToString();
         }
 
 

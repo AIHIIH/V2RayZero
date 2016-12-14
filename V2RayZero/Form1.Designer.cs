@@ -51,8 +51,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.plRight = new System.Windows.Forms.Panel();
-            this.txtKcp = new System.Windows.Forms.TextBox();
-            this.chbKcp = new System.Windows.Forms.CheckBox();
             this.txtAlterID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtLevel = new System.Windows.Forms.TextBox();
@@ -67,6 +65,10 @@
             this.contextMenuStripIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.重载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cbxSecurity = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbxNetwork = new System.Windows.Forms.ComboBox();
             this.tabPage2.SuspendLayout();
             this.contextMenuStripTextBox.SuspendLayout();
             this.plLeft.SuspendLayout();
@@ -133,13 +135,13 @@
             this.lsbService.ItemHeight = 20;
             this.lsbService.Location = new System.Drawing.Point(0, 0);
             this.lsbService.Name = "lsbService";
-            this.lsbService.Size = new System.Drawing.Size(312, 324);
+            this.lsbService.Size = new System.Drawing.Size(312, 384);
             this.lsbService.TabIndex = 20;
             this.lsbService.SelectedIndexChanged += new System.EventHandler(this.lsbService_SelectedIndexChanged);
             // 
             // btnDown
             // 
-            this.btnDown.Location = new System.Drawing.Point(149, 384);
+            this.btnDown.Location = new System.Drawing.Point(165, 451);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(75, 27);
             this.btnDown.TabIndex = 16;
@@ -149,7 +151,7 @@
             // 
             // btnDel
             // 
-            this.btnDel.Location = new System.Drawing.Point(149, 347);
+            this.btnDel.Location = new System.Drawing.Point(165, 414);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(75, 27);
             this.btnDel.TabIndex = 17;
@@ -159,7 +161,7 @@
             // 
             // btnUp
             // 
-            this.btnUp.Location = new System.Drawing.Point(29, 384);
+            this.btnUp.Location = new System.Drawing.Point(45, 451);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(75, 27);
             this.btnUp.TabIndex = 18;
@@ -178,12 +180,12 @@
             this.plLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.plLeft.Location = new System.Drawing.Point(3, 3);
             this.plLeft.Name = "plLeft";
-            this.plLeft.Size = new System.Drawing.Size(312, 437);
+            this.plLeft.Size = new System.Drawing.Size(312, 511);
             this.plLeft.TabIndex = 0;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(29, 347);
+            this.btnAdd.Location = new System.Drawing.Point(45, 414);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 27);
             this.btnAdd.TabIndex = 19;
@@ -194,16 +196,17 @@
             // txtGroup
             // 
             this.txtGroup.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtGroup.Location = new System.Drawing.Point(121, 305);
+            this.txtGroup.Location = new System.Drawing.Point(121, 382);
             this.txtGroup.Name = "txtGroup";
             this.txtGroup.Size = new System.Drawing.Size(311, 26);
             this.txtGroup.TabIndex = 46;
+            this.txtGroup.Tag = "group";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.Location = new System.Drawing.Point(54, 308);
+            this.label8.Location = new System.Drawing.Point(54, 386);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(51, 20);
             this.label8.TabIndex = 44;
@@ -212,16 +215,17 @@
             // txtLocalPort
             // 
             this.txtLocalPort.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtLocalPort.Location = new System.Drawing.Point(121, 227);
+            this.txtLocalPort.Location = new System.Drawing.Point(121, 306);
             this.txtLocalPort.Name = "txtLocalPort";
             this.txtLocalPort.Size = new System.Drawing.Size(311, 26);
             this.txtLocalPort.TabIndex = 45;
+            this.txtLocalPort.Tag = "local";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(40, 230);
+            this.label6.Location = new System.Drawing.Point(40, 308);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 20);
             this.label6.TabIndex = 43;
@@ -230,14 +234,15 @@
             // txtMark
             // 
             this.txtMark.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtMark.Location = new System.Drawing.Point(121, 266);
+            this.txtMark.Location = new System.Drawing.Point(121, 344);
             this.txtMark.Name = "txtMark";
             this.txtMark.Size = new System.Drawing.Size(311, 26);
             this.txtMark.TabIndex = 40;
+            this.txtMark.Tag = "mark";
             // 
             // btnStar
             // 
-            this.btnStar.Location = new System.Drawing.Point(121, 364);
+            this.btnStar.Location = new System.Drawing.Point(121, 447);
             this.btnStar.Name = "btnStar";
             this.btnStar.Size = new System.Drawing.Size(88, 47);
             this.btnStar.TabIndex = 42;
@@ -249,7 +254,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(68, 269);
+            this.label7.Location = new System.Drawing.Point(68, 347);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 20);
             this.label7.TabIndex = 39;
@@ -264,7 +269,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(827, 476);
+            this.tabControl1.Size = new System.Drawing.Size(827, 550);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -274,7 +279,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(819, 443);
+            this.tabPage1.Size = new System.Drawing.Size(819, 517);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -282,8 +287,8 @@
             // plRight
             // 
             this.plRight.BackColor = System.Drawing.Color.Gray;
-            this.plRight.Controls.Add(this.txtKcp);
-            this.plRight.Controls.Add(this.chbKcp);
+            this.plRight.Controls.Add(this.cbxNetwork);
+            this.plRight.Controls.Add(this.cbxSecurity);
             this.plRight.Controls.Add(this.txtGroup);
             this.plRight.Controls.Add(this.label8);
             this.plRight.Controls.Add(this.txtLocalPort);
@@ -291,6 +296,8 @@
             this.plRight.Controls.Add(this.txtMark);
             this.plRight.Controls.Add(this.btnStar);
             this.plRight.Controls.Add(this.label7);
+            this.plRight.Controls.Add(this.label9);
+            this.plRight.Controls.Add(this.label10);
             this.plRight.Controls.Add(this.txtAlterID);
             this.plRight.Controls.Add(this.label4);
             this.plRight.Controls.Add(this.txtLevel);
@@ -304,35 +311,17 @@
             this.plRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.plRight.Location = new System.Drawing.Point(315, 3);
             this.plRight.Name = "plRight";
-            this.plRight.Size = new System.Drawing.Size(501, 437);
+            this.plRight.Size = new System.Drawing.Size(501, 511);
             this.plRight.TabIndex = 1;
-            // 
-            // txtKcp
-            // 
-            this.txtKcp.Location = new System.Drawing.Point(381, 337);
-            this.txtKcp.Name = "txtKcp";
-            this.txtKcp.Size = new System.Drawing.Size(100, 26);
-            this.txtKcp.TabIndex = 48;
-            this.txtKcp.Visible = false;
-            // 
-            // chbKcp
-            // 
-            this.chbKcp.AutoSize = true;
-            this.chbKcp.Location = new System.Drawing.Point(338, 364);
-            this.chbKcp.Name = "chbKcp";
-            this.chbKcp.Size = new System.Drawing.Size(94, 24);
-            this.chbKcp.TabIndex = 47;
-            this.chbKcp.Text = "开启mKcp";
-            this.chbKcp.UseVisualStyleBackColor = true;
-            this.chbKcp.CheckedChanged += new System.EventHandler(this.chbKcp_CheckedChanged);
             // 
             // txtAlterID
             // 
             this.txtAlterID.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtAlterID.Location = new System.Drawing.Point(121, 188);
+            this.txtAlterID.Location = new System.Drawing.Point(121, 184);
             this.txtAlterID.Name = "txtAlterID";
             this.txtAlterID.Size = new System.Drawing.Size(311, 26);
             this.txtAlterID.TabIndex = 41;
+            this.txtAlterID.Tag = "alterId";
             // 
             // label4
             // 
@@ -348,10 +337,11 @@
             // txtLevel
             // 
             this.txtLevel.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtLevel.Location = new System.Drawing.Point(121, 149);
+            this.txtLevel.Location = new System.Drawing.Point(121, 146);
             this.txtLevel.Name = "txtLevel";
             this.txtLevel.Size = new System.Drawing.Size(311, 26);
             this.txtLevel.TabIndex = 37;
+            this.txtLevel.Tag = "level";
             // 
             // label5
             // 
@@ -367,10 +357,11 @@
             // txtID
             // 
             this.txtID.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtID.Location = new System.Drawing.Point(121, 110);
+            this.txtID.Location = new System.Drawing.Point(121, 108);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(311, 26);
             this.txtID.TabIndex = 35;
+            this.txtID.Tag = "id";
             // 
             // label3
             // 
@@ -386,10 +377,11 @@
             // txtServicePort
             // 
             this.txtServicePort.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtServicePort.Location = new System.Drawing.Point(121, 71);
+            this.txtServicePort.Location = new System.Drawing.Point(121, 70);
             this.txtServicePort.Name = "txtServicePort";
             this.txtServicePort.Size = new System.Drawing.Size(311, 26);
             this.txtServicePort.TabIndex = 33;
+            this.txtServicePort.Tag = "remote";
             // 
             // label2
             // 
@@ -409,6 +401,7 @@
             this.txtIP.Name = "txtIP";
             this.txtIP.Size = new System.Drawing.Size(311, 26);
             this.txtIP.TabIndex = 31;
+            this.txtIP.Tag = "address";
             // 
             // label1
             // 
@@ -451,11 +444,60 @@
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.Exit_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.ForeColor = System.Drawing.Color.DarkRed;
+            this.label9.Location = new System.Drawing.Point(40, 230);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 20);
+            this.label9.TabIndex = 38;
+            this.label9.Text = "加密方式";
+            // 
+            // cbxSecurity
+            // 
+            this.cbxSecurity.FormattingEnabled = true;
+            this.cbxSecurity.Items.AddRange(new object[] {
+            "aes-128-cfb",
+            "aes-128-gcm",
+            "chacha20-poly1305",
+            "none"});
+            this.cbxSecurity.Location = new System.Drawing.Point(121, 226);
+            this.cbxSecurity.Name = "cbxSecurity";
+            this.cbxSecurity.Size = new System.Drawing.Size(141, 28);
+            this.cbxSecurity.TabIndex = 49;
+            this.cbxSecurity.Tag = "security";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.ForeColor = System.Drawing.Color.DarkRed;
+            this.label10.Location = new System.Drawing.Point(68, 269);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(37, 20);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "协议";
+            // 
+            // cbxNetwork
+            // 
+            this.cbxNetwork.FormattingEnabled = true;
+            this.cbxNetwork.Items.AddRange(new object[] {
+            "TCP",
+            "mKCP",
+            "WebSocket "});
+            this.cbxNetwork.Location = new System.Drawing.Point(121, 266);
+            this.cbxNetwork.Name = "cbxNetwork";
+            this.cbxNetwork.Size = new System.Drawing.Size(141, 28);
+            this.cbxNetwork.TabIndex = 49;
+            this.cbxNetwork.Tag = "security";
+            // 
             // V2Ray_ZERO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(827, 476);
+            this.ClientSize = new System.Drawing.Size(827, 550);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "V2Ray_ZERO";
@@ -513,8 +555,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripIcon;
         private System.Windows.Forms.ToolStripMenuItem 重载ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
-        private System.Windows.Forms.CheckBox chbKcp;
-        private System.Windows.Forms.TextBox txtKcp;
+        private System.Windows.Forms.ComboBox cbxSecurity;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cbxNetwork;
+        private System.Windows.Forms.Label label10;
     }
 }
 
